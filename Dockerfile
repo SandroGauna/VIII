@@ -58,7 +58,7 @@ EXPOSE 8069 8071
 
 # Set default user when running the container
 USER odoo
-RUN apt-get update
+#RUN apt-get update
 #ENTRYPOINT ["/entrypoint.sh"]
 #CMD ["openerp-server"]
 

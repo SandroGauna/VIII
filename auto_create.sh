@@ -5,6 +5,7 @@ read docker_image
 echo "please choose Docker container name"
 read docker_container 
 mkdir -p $addons_path
+sudo docker build -t $docker_image .
 cd $addons_path
 #oca/ln10-brazil
 git clone https://github.com/OCA/l10n-brazil.git --branch 8.0
@@ -34,7 +35,6 @@ git clone https://github.com/Trust-Code/odoo-brazil-banking.git
 
 sudo docker run -d -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=odoo -p 5433:5432 --name db postgres:9.4
 sudo docker start db
-sudo docker build -t $docker_image .
 sudo docker run -v /opt/odoodocker/addons:/mnt/extra-addons -p 8069:8069 --name $docker_container --link db:db -t $docker_image
 sudo docker start $docker_container
 
