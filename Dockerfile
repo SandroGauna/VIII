@@ -55,10 +55,9 @@ EXPOSE 8069 8071
 
 # Set the default config file
 #ENV OPENERP_SERVER /etc/odoo/openerp-server.conf
-
+RUN apt-get update
 # Set default user when running the container
 USER odoo
-#RUN apt-get update
 #ENTRYPOINT ["/entrypoint.sh"]
 #CMD ["openerp-server"]
 
