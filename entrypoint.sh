@@ -21,4 +21,5 @@ export PGHOST PGPORT PGUSER PGPASSWORD
 #		exec "$@"
 #esac
 /opt/odoo/odoo.py -c /etc/odoo/openerp-server.conf
+#/opt/odoo/odoo.py 
 exit 1
