@@ -13,6 +13,8 @@ RUN set -x; \
 	        python-renderpm \
 		software-properties-common\
 	        python-pip \
+                python-setuptools \
+                python-dev \
 	        python-dateutil python-decorator \
 		python-docutils python-feedparser python-gdata python-gevent \
 		python-imaging python-jinja2 python-ldap python-libxslt1 python-lxml \
@@ -23,43 +25,44 @@ RUN set -x; \
 		python-vobject python-werkzeug python-xlwt python-yaml wkhtmltopdf git vim nano 
 
 ### add user "odoo" which will be used to run odoo
-RUN useradd -ms /bin/bash odoo	&& chown -R odoo /opt && chown -R odoo /var
+RUN useradd -ms /bin/bash odoo	&& chown -R odoo /opt && chown -R odoo /var &&  mkdir -p /etc/odoo && chmod 777 /etc/odoo
 
 ### Clone Odoo Repo     
-RUN set -x; \
-	cd /opt \
 #	&& apt-get update \
 #       && apt-get install -y git \
+RUN set -x; \
+	cd /opt \
         && git clone https://www.github.com/odoo/odoo --depth 1 --branch 8.0 --single-branch
     
 
 ###Copy entrypoint script and Odoo configuration file
 COPY ./entrypoint.sh /
-COPY ./openerp-server.conf /etc/odoo/ \
-&& chown odoo /etc/odoo/openerp-server.conf \
+COPY ./openerp-server.conf /etc/odoo/ 
+RUN chown odoo /etc/odoo/openerp-server.conf
+
 ### Install deps repos
 RUN set -x; \
     mkdir -p /opt/depslibs \
       && cd /opt/depslibs \
-      && git clone https://github.com/ahmedgenina/pyxmlsec-0.3.1.git \
-      && cd pyxmlsec-0.3.1 \
-      && python setup.py install \
-      && cd /opt/depslibs \
-      && git clone https://github.com/ahmedgenina/geraldo.git \
-      && cd geraldo \
-      && python setup.py install \
-      && cd /opt/depslibs \
-      && git clone https://github.com/ahmedgenina/PySPED.git \
-      && cd PySPED \
-      && python setup.py install \
-      && cd /opt/depslibs \
-      && git clone https://github.com/ahmedgenina/pyboleto.git \
-      && cd PyCNAB \
-      && python setup.py install \
-      && cd /opt/depslibs \
-      && git clone https://github.com/ahmedgenina/PyCNAB.git \
-      && cd PyCNAB \
-      && python setup.py install \
+    && git clone https://github.com/ahmedgenina/pyxmlsec-0.3.1.git \
+#      && cd pyxmlsec-0.3.1 \
+#      && python setup.py install \
+#      && cd /opt/depslibs \
+    && git clone https://github.com/ahmedgenina/geraldo.git \
+#      && cd geraldo \
+#      && python setup.py install \
+#      && cd /opt/depslibs \
+    && git clone https://github.com/ahmedgenina/PySPED.git \
+#      && cd PySPED \
+#      && python setup.py install \
+#      && cd /opt/depslibs \
+    && git clone https://github.com/ahmedgenina/pyboleto.git \
+#      && cd PyCNAB \
+#      && python setup.py install \
+#      && cd /opt/depslibs \
+    && git clone https://github.com/ahmedgenina/PyCNAB.git 
+#      && cd PyCNAB \
+#      && python setup.py install \
         
 # Mount /var/lib/odoo to allow restoring filestore and /mnt/extra-addons for users addons
 RUN mkdir -p /mnt/extra-addons \
@@ -74,6 +77,6 @@ RUN apt-get update
 RUN chown -R odoo:odoo /opt/odoo
 
 # Set default user when running the container
-USER odoo
-ENTRYPOINT ["/entrypoint.sh"]
+#USER odoo
+#ENTRYPOINT ["/entrypoint.sh"]
 

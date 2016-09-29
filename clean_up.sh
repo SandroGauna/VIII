@@ -3,3 +3,4 @@ docker stop db
 docker rm odoo_built_2
 docker rm db
 docker ps -a
+docker images
