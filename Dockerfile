@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 MAINTAINER Datashow LTDA <Ahmed-Genina>
 
-# Install some deps, lessc and less-plugin-clean-css, and wkhtmltopdf
+### Install some deps, lessc and less-plugin-clean-css, and wkhtmltopdf
 RUN set -x; \
         apt-get update \
         && apt-get install -y --no-install-recommends \
@@ -12,7 +12,7 @@ RUN set -x; \
 	        python-pyinotify \
 	        python-renderpm \
 		software-properties-common\
-#	        python-support \
+	        python-pip \
 	        python-dateutil python-decorator \
 		python-docutils python-feedparser python-gdata python-gevent \
 		python-imaging python-jinja2 python-ldap python-libxslt1 python-lxml \
@@ -21,45 +21,54 @@ RUN set -x; \
 		python-pyparsing python-pypdf python-reportlab python-requests \
 		python-simplejson python-tz python-unittest2 python-vatnumber \
 		python-vobject python-werkzeug python-xlwt python-yaml wkhtmltopdf git vim nano 
-#RUN  curl -o wkhtmltox.deb -SL http://nightly.odoo.com/extra/wkhtmltox-0.12.1.2_linux-jessie-amd64.deb \
-#	        && echo '40e8b906de658a2221b15e4e8cd82565a47d7ee8 wkhtmltox.deb' | sha1sum -c - \
-#	        && dpkg --force-depends -i wkhtmltox.deb \
-#	        && apt-get -y install -f --no-install-recommends \
-#	        && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false npm \
-#	        && rm -rf /var/lib/apt/lists/* wkhtmltox.deb
+
+### add user "odoo" which will be used to run odoo
 RUN useradd -ms /bin/bash odoo	&& chown -R odoo /opt && chown -R odoo /var
-# Install Odoo
-#ENV ODOO_VERSION 8.0
-#ENV ODOO_RELEASE 20160726
-        #curl -o odoo.deb -SL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb \
-        #&& echo '6679fad48c761cf8587faa243afcfc17f5a9eb73 odoo.deb' | sha1sum -c - \
-        #&& dpkg --force-depends -i odoo.deb \
-        #&& apt-get update \
-        #&& apt-get -y install -f --no-install-recommends \
-        #&& rm -rf /var/lib/apt/lists/* odoo.deb
-        # WORKDIR "/opt/"
+
+### Clone Odoo Repo     
 RUN set -x; \
-cd /opt && git clone https://www.github.com/odoo/odoo --depth 1 --branch 8.0 --single-branch
-        # Copy entrypoint script and Odoo configuration file
+	cd /opt \
+	&& git clone https://www.github.com/odoo/odoo --depth 1 --branch 8.0 --single-branch \
+        && chown odoo /etc/odoo/openerp-server.conf \
+
+###Copy entrypoint script and Odoo configuration file
 COPY ./entrypoint.sh /
 COPY ./openerp-server.conf /etc/odoo/
-RUN chown odoo /etc/odoo/openerp-server.conf
-
+	
+### Install deps repos
+RUN set -x; \
+	mkdir -p /opt/depslibs \
+	&& cd /opt/depslibs \
+	&& git clone https://github.com/ahmedgenina/pyxmlsec-0.3.1.git \
+        && cd pyxmlsec-0.3.1 \
+        && python setup.py install \
+        && cd /opt/depslibs \
+        && git clone https://github.com/ahmedgenina/geraldo.git \
+        && cd geraldo \
+        && python setup.py install \
+        && git clone https://github.com/ahmedgenina/PySPED.git \
+        && cd PySPED \
+        && python setup.py install \
+        && git clone https://github.com/ahmedgenina/pyboleto.git \
+        && cd PyCNAB \
+        && python setup.py install \
+        && https://github.com/ahmedgenina/PyCNAB.git \
+        && cd PyCNAB \
+        && python setup.py install \
+        
 # Mount /var/lib/odoo to allow restoring filestore and /mnt/extra-addons for users addons
 RUN mkdir -p /mnt/extra-addons \
         && chown -R odoo /mnt/extra-addons
 VOLUME ["/var/lib/odoo", "/mnt/extra-addons"]
 
-# Expose Odoo services
+# Expose Odoo services ports
 EXPOSE 8069 8071
 
-# Set the default config file
-#ENV OPENERP_SERVER /etc/odoo/openerp-server.conf
+### update and change owner
 RUN apt-get update 
 RUN chown -R odoo:odoo /opt/odoo
 
 # Set default user when running the container
 USER odoo
-#ENTRYPOINT ["/entrypoint.sh"]
-#CMD ["openerp-server"]
+ENTRYPOINT ["/entrypoint.sh"]
 
