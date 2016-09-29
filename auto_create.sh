@@ -1,17 +1,21 @@
+#!/bin/bash
 #collect required user data
-echo "please choose path to save extra addons"
-read addons_path
-echo "please choose Docker image name"
-read docker_image
-echo "please choose Docker container name"
-read docker_container 
+#echo "please choose path to save extra addons"
+#read addons_path
+#echo "please choose Docker image name"
+#read docker_image
+#echo "please choose Docker container name"
+#read docker_container 
+
+echo "USAGE auto_create.sh $extra_addons_path $2_name $3_name"
+
 
 #build the image
-sudo docker build -t $docker_image .
+sudo docker build -t $2 .
 
 #create directory to save localization repos
-mkdir -p $addons_path
-cd $addons_path
+mkdir -p $1
+cd $1
 
 # Clone required repos for Brazilian localization
 
@@ -48,9 +52,9 @@ sudo docker start db
 #mount extra addons directory from the host machine 
 #export port 8069
 #link to database container
-sudo docker run -v $addons_path:/mnt/extra-addons -p 8069:8069 --name $docker_container --link db:db -t $docker_image
+sudo docker run -v $1:/mnt/extra-addons -p 8069:8069 --name $3 --link db:db -t $2
 # Start odoo container
-sudo docker start $docker_container
+sudo docker start $3
 
 
 
