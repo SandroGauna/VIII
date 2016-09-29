@@ -28,7 +28,9 @@ RUN useradd -ms /bin/bash odoo	&& chown -R odoo /opt && chown -R odoo /var
 ### Clone Odoo Repo     
 RUN set -x; \
 	cd /opt \
-	&& git clone https://www.github.com/odoo/odoo --depth 1 --branch 8.0 --single-branch \
+#	&& apt-get update \
+#       && apt-get install -y git \
+        && git clone https://www.github.com/odoo/odoo --depth 1 --branch 8.0 --single-branch
     
 
 ###Copy entrypoint script and Odoo configuration file
@@ -37,27 +39,27 @@ COPY ./openerp-server.conf /etc/odoo/ \
 && chown odoo /etc/odoo/openerp-server.conf \
 ### Install deps repos
 RUN set -x; \
-	mkdir -p /opt/depslibs \
-	&& cd /opt/depslibs \
-	&& git clone https://github.com/ahmedgenina/pyxmlsec-0.3.1.git \
-    && cd pyxmlsec-0.3.1 \
-    && python setup.py install \
-    && cd /opt/depslibs \
-    && git clone https://github.com/ahmedgenina/geraldo.git \
-    && cd geraldo \
-    && python setup.py install \
-    && cd /opt/depslibs \
-	&& git clone https://github.com/ahmedgenina/PySPED.git \
-    && cd PySPED \
-    && python setup.py install \
-    && cd /opt/depslibs \
-	&& git clone https://github.com/ahmedgenina/pyboleto.git \
-    && cd PyCNAB \
-    && python setup.py install \
-	&& cd /opt/depslibs \
-    && git clone https://github.com/ahmedgenina/PyCNAB.git \
-    && cd PyCNAB \
-    && python setup.py install \
+    mkdir -p /opt/depslibs \
+      && cd /opt/depslibs \
+      && git clone https://github.com/ahmedgenina/pyxmlsec-0.3.1.git \
+      && cd pyxmlsec-0.3.1 \
+      && python setup.py install \
+      && cd /opt/depslibs \
+      && git clone https://github.com/ahmedgenina/geraldo.git \
+      && cd geraldo \
+      && python setup.py install \
+      && cd /opt/depslibs \
+      && git clone https://github.com/ahmedgenina/PySPED.git \
+      && cd PySPED \
+      && python setup.py install \
+      && cd /opt/depslibs \
+      && git clone https://github.com/ahmedgenina/pyboleto.git \
+      && cd PyCNAB \
+      && python setup.py install \
+      && cd /opt/depslibs \
+      && git clone https://github.com/ahmedgenina/PyCNAB.git \
+      && cd PyCNAB \
+      && python setup.py install \
         
 # Mount /var/lib/odoo to allow restoring filestore and /mnt/extra-addons for users addons
 RUN mkdir -p /mnt/extra-addons \
