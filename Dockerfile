@@ -29,7 +29,7 @@ RUN useradd -ms /bin/bash odoo	&& chown -R odoo /opt && chown -R odoo /var
 RUN set -x; \
 	cd /opt \
 	&& git clone https://www.github.com/odoo/odoo --depth 1 --branch 8.0 --single-branch \
-        && chown odoo /etc/odoo/openerp-server.conf \
+    && chown odoo /etc/odoo/openerp-server.conf \
 
 ###Copy entrypoint script and Odoo configuration file
 COPY ./entrypoint.sh /
@@ -40,25 +40,28 @@ RUN set -x; \
 	mkdir -p /opt/depslibs \
 	&& cd /opt/depslibs \
 	&& git clone https://github.com/ahmedgenina/pyxmlsec-0.3.1.git \
-        && cd pyxmlsec-0.3.1 \
-        && python setup.py install \
-        && cd /opt/depslibs \
-        && git clone https://github.com/ahmedgenina/geraldo.git \
-        && cd geraldo \
-        && python setup.py install \
-        && git clone https://github.com/ahmedgenina/PySPED.git \
-        && cd PySPED \
-        && python setup.py install \
-        && git clone https://github.com/ahmedgenina/pyboleto.git \
-        && cd PyCNAB \
-        && python setup.py install \
-        && https://github.com/ahmedgenina/PyCNAB.git \
-        && cd PyCNAB \
-        && python setup.py install \
+    && cd pyxmlsec-0.3.1 \
+    && python setup.py install \
+    && cd /opt/depslibs \
+    && git clone https://github.com/ahmedgenina/geraldo.git \
+    && cd geraldo \
+    && python setup.py install \
+    && cd /opt/depslibs \
+	&& git clone https://github.com/ahmedgenina/PySPED.git \
+    && cd PySPED \
+    && python setup.py install \
+    && cd /opt/depslibs \
+	&& git clone https://github.com/ahmedgenina/pyboleto.git \
+    && cd PyCNAB \
+    && python setup.py install \
+	&& cd /opt/depslibs \
+    && git clone https://github.com/ahmedgenina/PyCNAB.git \
+    && cd PyCNAB \
+    && python setup.py install \
         
 # Mount /var/lib/odoo to allow restoring filestore and /mnt/extra-addons for users addons
 RUN mkdir -p /mnt/extra-addons \
-        && chown -R odoo /mnt/extra-addons
+&& chown -R odoo /mnt/extra-addons
 VOLUME ["/var/lib/odoo", "/mnt/extra-addons"]
 
 # Expose Odoo services ports
