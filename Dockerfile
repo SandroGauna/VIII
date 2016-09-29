@@ -29,12 +29,12 @@ RUN useradd -ms /bin/bash odoo	&& chown -R odoo /opt && chown -R odoo /var
 RUN set -x; \
 	cd /opt \
 	&& git clone https://www.github.com/odoo/odoo --depth 1 --branch 8.0 --single-branch \
-    && chown odoo /etc/odoo/openerp-server.conf \
+    
 
 ###Copy entrypoint script and Odoo configuration file
 COPY ./entrypoint.sh /
-COPY ./openerp-server.conf /etc/odoo/
-	
+COPY ./openerp-server.conf /etc/odoo/ \
+&& chown odoo /etc/odoo/openerp-server.conf \
 ### Install deps repos
 RUN set -x; \
 	mkdir -p /opt/depslibs \
