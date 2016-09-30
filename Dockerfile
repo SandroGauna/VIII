@@ -14,6 +14,7 @@ RUN set -x; \
 		software-properties-common\
 	        python-pip \
                 python-setuptools \
+                python-openssl \
                 python-dev \
 	        python-dateutil python-decorator \
 		python-docutils python-feedparser python-gdata python-gevent \
@@ -75,6 +76,13 @@ EXPOSE 8069 8071
 ### update and change owner
 RUN apt-get update 
 RUN chown -R odoo:odoo /opt/odoo
+
+# Add required Locale
+RUN echo "en_US ISO-8859-1" >> /etc/locale.gen
+RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+RUN echo "pt_BR ISO-8859-1" >> /etc/locale.gen
+RUN echo "pt_BR.UTF-8 UTF-8" >> /etc/locale.gen
+RUN locale-gen
 
 # Set default user when running the container
 #USER odoo
