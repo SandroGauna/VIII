@@ -1,14 +1,8 @@
 #!/bin/bash
 #collect required user data
-#echo "please choose path to save extra addons"
-#read addons_path
-#echo "please choose Docker image name"
-#read docker_image
-#echo "please choose Docker container name"
-#read docker_container 
+echo "Usage auto_create.sh addons_path_on_host docker_image_name docker_container_name"
 
-echo "USAGE auto_create.sh $extra_addons_path $2_name $3_name"
-
+#echo "USAGE auto_create.sh $extra_addons_path $2_name $3_name"
 
 #build the image
 sudo docker build -t $2 .
