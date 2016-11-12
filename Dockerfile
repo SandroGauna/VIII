@@ -20,7 +20,7 @@ RUN set -x; \
 		python-docutils python-feedparser python-gdata python-gevent \
 		python-imaging python-jinja2 python-ldap python-libxslt1 python-lxml \
 		python-mako python-mock python-openid python-passlib python-psutil \
-		python-psycopg2 python-pybabel python-pychart python-pydot \
+		python-psycopg2 python-pybabel python-pychart python-suds python-pydot \
 		python-pyparsing python-pypdf python-reportlab python-requests \
 		python-simplejson python-tz python-unittest2 python-vatnumber \
 		build-essential autoconf libtool pkg-config python-opengl python-imaging \

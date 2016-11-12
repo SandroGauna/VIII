@@ -59,7 +59,7 @@ pip install boto==2.38.0
 pip install oerplib==0.8.4
 pip install jcconv==0.2.3
 pip install pytz
-
+pip install num2words
 ### Install deps repos
 mkdir -p /opt/depslibs;
 cd /opt/depslibs;
