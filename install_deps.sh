@@ -33,19 +33,19 @@ python setup.py install;
 
 # 3 - PySPED
 cd /opt/depslibs;
-RUN git clone https://github.com/Trust-Code/PySPED.git pysped;
+git clone https://github.com/Trust-Code/PySPED.git pysped;
 cd pysped;
 python setup.py install;
 
 # 4 - pyboleto
 cd /opt/depslibs;
-RUN git clone https://github.com/Trust-Code/pyboleto.git;
+git clone https://github.com/Trust-Code/pyboleto.git;
 cd pyboleto;
 python setup.py install;
 
 # 5 - PyCNAB
 cd /opt/depslibs;
-RUN git clone https://github.com/Trust-Code/PyCNAB.git pycnab;
+git clone https://github.com/Trust-Code/PyCNAB.git pycnab;
 cd pycnab;
 python setup.py install;
 
