@@ -7,6 +7,8 @@ build docker image for odoo brazil
 
 3 - provide the required parameters as shown below
 
+    Usage auto_create.sh addons_path_on_host docker_image_name docker_container_name
+
 	Example :
 	
                   auto_create.sh /opt/odoo-addons ubuntu/odoo:v8_1 odoo_built_1
