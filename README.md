@@ -5,18 +5,12 @@ build docker image for odoo brazil
 
 2 - Execute the script auto_create.sh 
 
-3 - Answer the three questions 
+3 - provide the required parameters as shown below
 
 	Example :
 	
-                  please choose path to save extra addons
-                  /opt/odoo-addons
-		  
-		  please choose Docker image name
-		  ubuntu/odoo:v8_1
-		  
-		  please choose Docker container name
-		  odoo_built_1
+                  auto_create.sh /opt/odoo-addons ubuntu/odoo:v8_1 odoo_built_1
+		  		  
 	          
 4 - Script will pull a postgres image and create odoo image, then download localization moodules for brazil, 
 finally will start the containers 
