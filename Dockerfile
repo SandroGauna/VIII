@@ -39,6 +39,7 @@ RUN dpkg -i wkhtmltox.deb
 # Mount /var/lib/odoo to allow restoring filestore and /mnt/extra-addons for users addons
 RUN mkdir -p /mnt/extra-addons
 WORKDIR /mnt/extra-addons
+
 RUN git clone -b 8.0 http://github.com/Trust-Code/odoo-brazil-eletronic-documents.git eletronic-docs
 RUN git clone -b 8.0 http://github.com/Trust-Code/l10n-brazil.git l10n-brazil
 RUN git clone -b 8.0 http://github.com/Trust-Code/account-fiscal-rule.git fiscal-rule
@@ -55,8 +56,6 @@ RUN git clone -b 8.0 http://github.com/OCA/bank-payment.git
 RUN git clone -b 8.0 https://github.com/OCA/web.git
 RUN git clone -b 8.0 https://github.com/OCA/project.git
 RUN git clone -b master https://github.com/Trust-Code/odoo-project_scrum.git scrum
-
-RUN mkdir private
 
 RUN chown -R odoo /mnt/extra-addons
 VOLUME ["/var/lib/odoo", "/mnt/extra-addons"]
