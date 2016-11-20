@@ -76,6 +76,6 @@ RUN locale-gen
 
 # Set default user when running the container
 
-USER odoo
-ENTRYPOINT ["/entrypoint.sh"]
+#USER odoo
+#ENTRYPOINT ["/entrypoint.sh"]
 
