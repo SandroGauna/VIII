@@ -3,7 +3,7 @@
 echo "Usage auto_create.sh  docker_image_name docker_container_name"
 
 #build the image
-sudo docker build -t $2 .
+sudo docker build -t $1 .
 
 # Trust version clone the repos from the docker file to the container
 #create directory to save localization repos
@@ -35,10 +35,10 @@ sudo docker start db
 #export port 8069
 #link to database container
 # Trust version clone the repos from the docker file to the container so the volume mount would not be necessary anymore
-#sudo docker run -v $1:/mnt/extra-addons -p 8069:8069 --name $3 --link db:db -t $2
-sudo docker run -p 8069:8069 --name $3 --link db:db -t $2
+#sudo docker run -v $1:/mnt/extra-addons -p 8069:8069 --name $2 --link db:db -t $1
+sudo docker run -p 8069:8069 --name $2 --link db:db -t $1
 # Start odoo container
-sudo docker start $3
+sudo docker start $2
 
 
 
